@@ -38,7 +38,7 @@ const DetailScreen = ({ route }: any) => {
         {
           params: {
             vs_currency: 'usd',
-            days: 30,
+            days: 360,
           },
         }
       );

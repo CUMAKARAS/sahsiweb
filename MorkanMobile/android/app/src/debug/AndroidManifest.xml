@@ -7,3 +7,12 @@
         tools:targetApi="28"
         tools:ignore="GoogleAppIndexingWarning"/>
 </manifest>
+Compiled with problems:
+×
+ERROR in ./src/index.tsx 5:0-46
+Module not found: Error: Can't resolve 'react-dom/client' in 'C:\Users\cmkrs\web deneme\src'
+ERROR in ./src/index.tsx 7:0-24
+Module not found: Error: Can't resolve './App' in 'C:\Users\cmkrs\web deneme\src'
+ERROR
+[eslint] Failed to load config "react-app" to extend from.
+Referenced from: C:\Users\cmkrs\web deneme\package.json
