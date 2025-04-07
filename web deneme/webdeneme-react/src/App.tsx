@@ -300,38 +300,36 @@ function App() {
   }, [selectedCrypto]);
 
   return (
-    <div className="min-h-screen bg-blue-100">
-      {/* Navbar */}
-      <nav className="bg-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex-1"></div>
-            <div className="absolute left-1/2 transform -translate-x-1/2">
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">M</span>
-                </div>
-                <div className="flex flex-col">
-                  <h1 className="text-2xl font-bold text-gray-900 tracking-tight">MORKAN</h1>
-                  <span className="text-xs text-gray-500 -mt-1">Kripto Para Platformu</span>
-                </div>
-              </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-primary text-white shadow-lg">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <h1 className="text-2xl font-bold text-accent">KriptoPulse</h1>
+              <span className="text-sm text-gray-300">Kripto Dünyasının Nabzı</span>
             </div>
-            <div className="flex-1 flex justify-end items-center">
+            <div className="flex items-center space-x-4">
+              <input
+                type="text"
+                placeholder="Kripto ara..."
+                className="px-4 py-2 rounded-lg bg-white/10 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-accent"
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
               <button
                 onClick={handleRefresh}
-                disabled={isLoading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50"
+                className="px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
               >
-                {isLoading ? 'Yenileniyor...' : 'Yenile'}
+                Yenile
               </button>
             </div>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Ana İçerik */}
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Başlıklar */}
           <div className="lg:col-span-3 grid grid-cols-3 gap-6 mb-6">
@@ -348,21 +346,46 @@ function App() {
 
           {/* Sol Kolon - Haberler */}
           <div className="lg:col-span-1">
-            <div className="bg-white shadow-lg rounded-lg p-4">
-              <div className="grid grid-cols-1 gap-3">
+            <div className="bg-white rounded-xl shadow-lg p-6">
+              <h2 className="text-xl font-bold text-primary mb-4">Son Haberler</h2>
+              <div className="space-y-4">
                 {news.map((item, index) => (
-                  <div key={index} className="border-b pb-3 last:border-b-0">
+                  <div
+                    key={index}
+                    className="border-b border-gray-100 last:border-0 pb-4 last:pb-0"
+                  >
                     <a
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="block hover:text-blue-600"
+                      className="block hover:bg-gray-50 rounded-lg p-3 transition-colors"
                     >
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-medium text-sm">{item.title}</h3>
-                        <span className="text-xs text-gray-500">
-                          {new Date(item.publishedAt).toLocaleDateString('tr-TR')} - {item.source}
-                        </span>
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-primary hover:text-accent transition-colors">
+                            {item.title}
+                          </h3>
+                          <div className="flex items-center space-x-2 mt-2">
+                            <span className="text-sm text-gray-500">{item.source}</span>
+                            <span className="text-gray-300">•</span>
+                            <span className="text-sm text-gray-500">
+                              {new Date(item.publishedAt).toLocaleDateString('tr-TR')}
+                            </span>
+                          </div>
+                        </div>
+                        <svg
+                          className="w-5 h-5 text-gray-400"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
                       </div>
                     </a>
                   </div>
@@ -374,41 +397,69 @@ function App() {
           {/* Orta Kolon - Top 10 Kripto Paralar */}
           <div className="lg:col-span-1">
             <div className="bg-white shadow-lg rounded-lg p-4">
-              <div className="space-y-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {top10Cryptos.map((crypto) => (
                   <div
                     key={crypto.id}
-                    className="flex items-center justify-between p-1.5 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer"
-                    onClick={() => setSelectedCrypto(crypto)}
+                    className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow"
                   >
-                    <div className="flex items-center space-x-1.5">
-                      <img
-                        src={crypto.image}
-                        alt={crypto.name}
-                        className="w-3 h-3 rounded-full"
-                      />
-                      <div>
-                        <h3 className="font-medium text-[10px]">{crypto.name}</h3>
-                        <p className="text-[8px] text-gray-500">{crypto.symbol.toUpperCase()}</p>
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={crypto.image}
+                          alt={crypto.name}
+                          className="w-10 h-10 rounded-full"
+                        />
+                        <div>
+                          <h3 className="text-lg font-semibold text-primary">{crypto.name}</h3>
+                          <p className="text-sm text-gray-500">{crypto.symbol.toUpperCase()}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center space-x-1.5">
-                      <span className={`font-medium text-[10px] ${
-                        crypto.price_change_percentage_24h >= 0 ? 'text-green-600' : 'text-red-600'
-                      }`}>
-                        {crypto.price_change_percentage_24h.toFixed(2)}%
-                      </span>
-                      <span className="font-medium text-[10px]">${crypto.current_price.toLocaleString()}</span>
                       <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleFavorite(crypto.id);
-                        }}
-                        className="text-gray-400 hover:text-yellow-500 text-[10px]"
+                        onClick={() => toggleFavorite(crypto.id)}
+                        className={`p-2 rounded-full ${
+                          favorites.includes(crypto.id)
+                            ? 'text-accent'
+                            : 'text-gray-400 hover:text-accent'
+                        }`}
                       >
-                        {favorites.includes(crypto.id) ? '★' : '☆'}
+                        <svg
+                          className="w-6 h-6"
+                          fill={favorites.includes(crypto.id) ? 'currentColor' : 'none'}
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          />
+                        </svg>
                       </button>
                     </div>
+                    <div className="space-y-2">
+                      <p className="text-2xl font-bold text-primary">
+                        ${crypto.current_price.toLocaleString()}
+                      </p>
+                      <p
+                        className={`text-sm font-medium ${
+                          crypto.price_change_percentage_24h >= 0
+                            ? 'text-green-500'
+                            : 'text-red-500'
+                        }`}
+                      >
+                        {crypto.price_change_percentage_24h >= 0 ? '+' : ''}
+                        {crypto.price_change_percentage_24h.toFixed(2)}%
+                        <span className="text-gray-500 ml-1">(24s)</span>
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => handleDetailedAnalysis(crypto.id)}
+                      className="mt-4 w-full px-4 py-2 bg-accent text-white rounded-lg hover:bg-accent/90 transition-colors"
+                    >
+                      Detaylı Analiz
+                    </button>
                   </div>
                 ))}
               </div>
